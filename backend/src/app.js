@@ -3,7 +3,17 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",          // local dev
+      "https://zipurl-soiw.onrender.com" // prod frontend
+    ],
+  })
+);
+
 app.use(express.json());
 
 const shortenRoutes = require("./routes/shorten.routes");
