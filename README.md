@@ -184,8 +184,8 @@ This project helped me move from theory to practical implementation.
 
 - Custom aliases for URLs
 - Expiry-based links
-### Rate limiting
-### Analytics dashboard
+- Rate limiting
+- Analytics dashboard
 
 
 <p align="center">Built with ❤️ while learning system design</p> ```
