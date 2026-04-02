@@ -167,11 +167,11 @@ http://localhost:5173
 ```
 ## Key Learnings
 
-### Understanding how URL shorteners work internally
-### Choosing SQL (PostgreSQL) over NoSQL based on data structure
-### Using Redis caching to improve performance
-### Designing efficient short code generation using Base62
-### Managing request flow across frontend and backend
+- Understanding how URL shorteners work internally
+- Choosing SQL (PostgreSQL) over NoSQL based on data structure
+- Using Redis caching to improve performance
+- Designing efficient short code generation using Base62
+- Managing request flow across frontend and backend
 
 ## Why I Built This
 
@@ -182,8 +182,8 @@ This project helped me move from theory to practical implementation.
 
 ## Future Improvements
 
-### Custom aliases for URLs
-### Expiry-based links
+- Custom aliases for URLs
+- Expiry-based links
 ### Rate limiting
 ### Analytics dashboard
 
