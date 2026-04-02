@@ -14,7 +14,7 @@
 
 ZipUrl is a full-stack URL shortening application that converts long URLs into short, easy-to-share links.
 
-This project is not just a basic shortener — it is built with a focus on system design and real-world architecture:
+This project is not just a basic shortener - it is built with a focus on system design and real-world architecture:
 
 - Efficient short URL generation using Base62 encoding  
 - Fast redirects using Redis caching  
@@ -188,4 +188,4 @@ This project helped me move from theory to practical implementation.
 - Analytics dashboard
 
 
-<p align="center">Built with ❤️ while learning system design</p> ```
+<p align="center">Built with ❤️ while learning system design</p>
