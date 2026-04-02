@@ -27,14 +27,14 @@ The goal was to move beyond theory and understand how systems like Bitly actuall
 
 ## ✨ Features
 
-- 🔗 URL Shortening — Convert long URLs into compact short links  
-- ⚡ Fast Redirects — Redis caching for quick response time  
-- 🧠 Base62 Encoding — Generates short, unique, URL-friendly codes  
-- 📊 Click Tracking — Tracks number of times a link is accessed  
-- 🔁 302 Redirects — Flexible redirect strategy  
-- 🎯 Behind-the-scenes UI — Visualizes request flow step-by-step  
-- 🌙 Dark Mode UI — Clean React + Tailwind interface  
-- 📱 Responsive Design — Works across devices  
+- 🔗 URL Shortening - Convert long URLs into compact short links  
+- ⚡ Fast Redirects - Redis caching for quick response time  
+- 🧠 Base62 Encoding - Generates short, unique, URL-friendly codes  
+- 📊 Click Tracking - Tracks number of times a link is accessed  
+- 🔁 302 Redirects - Flexible redirect strategy  
+- 🎯 Behind-the-scenes UI - Visualizes request flow step-by-step  
+- 🌙 Dark Mode UI - Clean React + Tailwind interface  
+- 📱 Responsive Design - Works across devices  
 
 ---
 
@@ -57,12 +57,12 @@ The goal was to move beyond theory and understand how systems like Bitly actuall
 ### 🔄 URL Shortening Flow
 
 1. User enters a long URL in the frontend  
-2. Frontend sends request → `POST /api/shorten`  
+2. Frontend sends request : `POST /api/shorten`  
 3. Backend:
    - Validates URL  
    - Stores it in PostgreSQL  
    - Generates unique ID  
-   - Converts ID → Base62 short code  
+   - Converts ID : Base62 short code  
 4. Short URL is returned to the user  
 
 ---
@@ -71,8 +71,8 @@ The goal was to move beyond theory and understand how systems like Bitly actuall
 
 1. User opens short URL  
 2. Backend checks Redis:
-   - ✅ Cache HIT → redirect immediately  
-   - ❌ Cache MISS → fetch from DB → store in Redis  
+   - Cache HIT -> redirect immediately  
+   - Cache MISS -> fetch from DB -> store in Redis  
 3. Click count is incremented  
 4. 302 redirect is sent to the original URL  
 
@@ -126,7 +126,6 @@ zipurl/
 - Node.js v18+
 - PostgreSQL installed
 - Redis (Cloud or local)
-
 ---
 
 ### 1. Clone the repository
@@ -140,39 +139,39 @@ cd zipurl
 ```
 cd backend
 npm install
-
 ```
 ### creare .env file 
 
+```
 DATABASE_URL=your_postgres_url
 REDIS_URL=your_redis_url
 BASE_URL=http://localhost:3000
-
+```
 ### Run backend
 
+```
 npx prisma migrate dev
 npm run dev
-
+```
 ### 3. Setup Frontend
 
 ```
 cd frontend
 npm install
 npm run dev
-
 ```
 
 ### open in browser
-
+```
 http://localhost:5173
-
+```
 ## Key Learnings
 
-Understanding how URL shorteners work internally
-Choosing SQL (PostgreSQL) over NoSQL based on data structure
-Using Redis caching to improve performance
-Designing efficient short code generation using Base62
-Managing request flow across frontend and backend
+# Understanding how URL shorteners work internally
+# Choosing SQL (PostgreSQL) over NoSQL based on data structure
+# Using Redis caching to improve performance
+# Designing efficient short code generation using Base62
+# Managing request flow across frontend and backend
 
 ## Why I Built This
 
@@ -183,13 +182,10 @@ This project helped me move from theory to practical implementation.
 
 ## Future Improvements
 
-Custom aliases for URLs
-Expiry-based links
-Rate limiting
-Analytics dashboard
+# Custom aliases for URLs
+# Expiry-based links
+# Rate limiting
+# Analytics dashboard
 
-##License
-
-MIT — feel free to use and improve.
 
 <p align="center">Built with ❤️ while learning system design</p> ```
