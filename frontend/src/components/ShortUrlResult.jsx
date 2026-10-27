@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Copy, Check, ExternalLink, RotateCcw, Link2 } from "lucide-react";
 
 function ShortUrlResult({ shortUrl, onReset }) {
   const [copied, setCopied] = useState(false);
@@ -8,203 +9,179 @@ function ShortUrlResult({ shortUrl, onReset }) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(shortUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-      // Fallback for older browsers
-      const textArea = document.createElement("textarea");
-      textArea.value = shortUrl;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("Fallback copy failed:", err);
-      }
-      document.body.removeChild(textArea);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = shortUrl;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
     }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
+  const displayUrl = shortUrl.replace(/^https?:\/\//, "");
+
   return (
-    <div 
-      className="glass rounded-2xl p-8 shadow-xl border-2 scale-in" 
-      style={{ borderColor: 'var(--success)' }}
-    >
-      
-      {/* Success Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div 
-          className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
-          style={{ backgroundColor: 'var(--success)', color: 'white' }}
-        >
-          ✓
+    <div className="card animate-fade-up" style={{ overflow: "hidden" }}>
+
+      {/* Success banner */}
+      <div style={{
+        padding: "12px 20px",
+        backgroundColor: "var(--success-muted)",
+        borderBottom: "1px solid var(--border)",
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+      }}>
+        <div style={{
+          width: 20, height: 20, borderRadius: "50%",
+          backgroundColor: "var(--success)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0,
+        }}>
+          <Check size={11} color="#fff" strokeWidth={3} />
         </div>
-        <div>
-          <h3 
-            className="text-xl font-bold" 
-            style={{ color: 'var(--success)' }}
-          >
-            Success!
-          </h3>
-          <p className="text-sm opacity-70">Your short URL is ready</p>
-        </div>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--success)" }}>
+          Short link created
+        </span>
       </div>
 
-      {/* Short URL Display */}
-      <div 
-        className="rounded-xl p-6 mb-6" 
-        style={{ backgroundColor: 'var(--bg-secondary)' }}
-      >
-        <label className="text-xs uppercase font-semibold opacity-60 mb-2 block">
-          Shortened URL
-        </label>
-        <div className="flex items-center gap-3">
+      {/* URL display */}
+      <div style={{ padding: "20px 20px 16px" }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          padding: "12px 14px",
+          backgroundColor: "var(--surface-2)",
+          borderRadius: 8,
+          border: "1px solid var(--border)",
+        }}>
+          <Link2 size={14} color="var(--accent)" strokeWidth={2} style={{ flexShrink: 0 }} />
           <a
             href={shortUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-xl font-semibold hover:underline break-all transition-colors"
-            style={{ 
-              color: 'var(--accent)',
-              fontFamily: 'var(--font-mono)'
+            style={{
+              flex: 1,
+              fontSize: 15,
+              fontWeight: 600,
+              fontFamily: "var(--font-mono)",
+              color: "var(--accent)",
+              textDecoration: "none",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
-            {shortUrl}
+            {displayUrl}
           </a>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex gap-3 flex-wrap">
-        
-        {/* Copy Button */}
+      {/* Actions */}
+      <div style={{
+        display: "flex",
+        gap: 8,
+        padding: "0 20px 20px",
+      }}>
+        {/* Copy */}
         <button
           onClick={handleCopy}
-          className={`
-            flex-1 min-w-[140px] py-3 px-6 rounded-xl font-semibold
-            transition-all duration-300 transform
-            hover:shadow-lg active:scale-95
-            flex items-center justify-center gap-2
-          `}
           style={{
-            backgroundColor: copied ? 'var(--success)' : 'var(--accent)',
-            color: 'white'
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "8px 14px",
+            fontSize: 13,
+            fontWeight: 500,
+            color: copied ? "var(--success)" : "var(--text-1)",
+            backgroundColor: copied ? "var(--success-muted)" : "var(--surface-2)",
+            border: `1px solid ${copied ? "var(--success)" : "var(--border)"}`,
+            borderRadius: 7,
+            cursor: "pointer",
+            transition: "all 0.15s ease",
           }}
         >
-          {copied ? (
-            <>
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path 
-                  fillRule="evenodd" 
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
-                  clipRule="evenodd" 
-                />
-              </svg>
-              <span>Copied!</span>
-            </>
-          ) : (
-            <>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" 
-                />
-              </svg>
-              <span>Copy URL</span>
-            </>
-          )}
+          {copied ? <Check size={13} strokeWidth={2.5} /> : <Copy size={13} strokeWidth={2} />}
+          {copied ? "Copied!" : "Copy"}
         </button>
 
-        {/* Visit Button */}
+        {/* Visit */}
         <a
           href={shortUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-3 px-6 rounded-xl font-semibold 
-                     transition-all duration-300 transform 
-                     hover:shadow-lg active:scale-95 
-                     flex items-center justify-center gap-2"
           style={{
-            backgroundColor: 'var(--bg-secondary)',
-            color: 'var(--text-primary)',
-            border: '2px solid var(--border)'
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "8px 14px",
+            fontSize: 13,
+            fontWeight: 500,
+            color: "var(--text-1)",
+            backgroundColor: "var(--surface-2)",
+            border: "1px solid var(--border)",
+            borderRadius: 7,
+            textDecoration: "none",
+            transition: "border-color 0.15s ease",
           }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
-            />
-          </svg>
-          <span>Visit</span>
+          <ExternalLink size={13} strokeWidth={2} />
+          Visit
         </a>
 
-        {/* Reset Button */}
+        {/* New link */}
         {onReset && (
           <button
             onClick={onReset}
-            className="py-3 px-6 rounded-xl font-semibold 
-                       transition-all duration-300 transform 
-                       hover:shadow-lg active:scale-95 
-                       flex items-center justify-center gap-2"
             style={{
-              backgroundColor: 'var(--bg-secondary)',
-              color: 'var(--text-primary)',
-              border: '2px solid var(--border)'
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "8px 14px",
+              fontSize: 13,
+              fontWeight: 500,
+              color: "var(--text-2)",
+              backgroundColor: "transparent",
+              border: "1px solid transparent",
+              borderRadius: 7,
+              cursor: "pointer",
+              marginLeft: "auto",
+              transition: "color 0.15s ease",
             }}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
-              />
-            </svg>
-            <span>New</span>
+            <RotateCcw size={13} strokeWidth={2} />
+            New link
           </button>
         )}
       </div>
 
-      {/* Stats Section */}
-      <div 
-        className="mt-6 pt-6 grid grid-cols-3 gap-4 text-center"
-        style={{ borderTop: '1px solid var(--border)' }}
-      >
-        <div>
-          <p 
-            className="text-2xl font-bold" 
-            style={{ color: 'var(--success)' }}
-          >
-            {shortUrl.length}
-          </p>
-          <p className="text-xs opacity-60 mt-1">Characters</p>
-        </div>
-        <div>
-          <p 
-            className="text-2xl font-bold" 
-            style={{ color: 'var(--success)' }}
-          >
-            ∞
-          </p>
-          <p className="text-xs opacity-60 mt-1">Valid Forever</p>
-        </div>
-        <div>
-          <p 
-            className="text-2xl font-bold" 
-            style={{ color: 'var(--success)' }}
-          >
-            ⚡
-          </p>
-          <p className="text-xs opacity-60 mt-1">Lightning Fast</p>
-        </div>
+      {/* Meta row */}
+      <div style={{
+        padding: "12px 20px",
+        borderTop: "1px solid var(--border)",
+        display: "flex",
+        gap: 20,
+      }}>
+        <MetaStat label="Length" value={`${displayUrl.length} chars`} />
+        <MetaStat label="Expires" value="Never" />
+        <MetaStat label="Clicks" value="Tracked" />
+      </div>
+    </div>
+  );
+}
+
+function MetaStat({ label, value }) {
+  return (
+    <div>
+      <div style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-3)", marginBottom: 2 }}>
+        {label}
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 500, color: "var(--text-2)" }}>
+        {value}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link2 } from "lucide-react";
 import DarkModeToggle from "./components/DarkModeToggle";
 import UrlInput from "./components/UrlInput";
 import FlowSteps from "./components/FlowSteps";
@@ -7,57 +8,60 @@ import { useShortenFlow } from "./hooks/useShortenFlow";
 
 function App() {
   const flow = useShortenFlow();
-  
+
   return (
-    <div className="min-h-screen transition-colors duration-300" 
-         style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-      
-      {/* Animated background gradient */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--bg)", color: "var(--text-1)" }}>
 
-      {/* Header */}
-      <header className="border-b fade-in" style={{ borderColor: 'var(--border)' }}>
-        <div className="max-w-4xl mx-auto px-6 py-6 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+      {/* ── Header ─────────────────────────────────────────── */}
+      <header style={{ borderBottom: "1px solid var(--border)", backgroundColor: "var(--surface)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{
+              width: 30, height: 30, borderRadius: 8,
+              backgroundColor: "var(--accent)",
+              display: "flex", alignItems: "center", justifyContent: "center"
+            }}>
+              <Link2 size={16} color="#fff" strokeWidth={2.5} />
+            </div>
+            <span style={{ fontWeight: 600, fontSize: 15, letterSpacing: "-0.01em", color: "var(--text-1)" }}>
               ZipURL
-            </h1>
+            </span>
           </div>
           <DarkModeToggle />
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 py-12">
-        
-        {/* Hero Section */}
-        <div className="text-center mb-12 fade-in" style={{ animationDelay: '0.1s' }}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-            Create short links in seconds.{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-              Long URLs made simple.
-            </span>
-          </h2>
-          <p className="text-lg opacity-70 max-w-2xl mx-auto">
-            Paste a URL and watch what happens behind the scenes until your link is ready.
+      {/* ── Main ───────────────────────────────────────────── */}
+      <main style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 80px" }}>
+
+        {/* Hero */}
+        <div className="animate-fade-up" style={{ marginBottom: 32 }}>
+          <h1 style={{
+            fontSize: "clamp(22px, 4vw, 30px)",
+            fontWeight: 700,
+            letterSpacing: "-0.03em",
+            lineHeight: 1.25,
+            marginBottom: 10,
+            color: "var(--text-1)"
+          }}>
+            Shorten any link,<br />share it anywhere.
+          </h1>
+          <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.6, margin: 0 }}>
+            Paste a long URL below and get a clean, shareable short link in seconds.
           </p>
         </div>
 
-        {/* URL Input Card */}
-        <div className="glass rounded-2xl p-8 mb-8 shadow-xl fade-in" style={{ animationDelay: '0.2s' }}>
+        {/* Input Card */}
+        <div className="card animate-fade-up delay-1" style={{ padding: 24, marginBottom: 16 }}>
           <UrlInput onShorten={flow.start} loading={flow.loading} />
         </div>
 
-        {/* Flow Steps Visualization */}
+        {/* Processing Pipeline */}
         {(flow.currentStep >= 0 || flow.completedSteps.length > 0) && (
-          <div className="glass rounded-2xl p-8 mb-8 shadow-xl scale-in">
-            <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-              Processing Pipeline
-            </h3>
+          <div className="card animate-fade-in" style={{ padding: 20, marginBottom: 16 }}>
+            <p style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 16, margin: "0 0 14px" }}>
+              Processing
+            </p>
             <FlowSteps
               steps={flow.steps}
               currentStep={flow.currentStep}
@@ -68,36 +72,37 @@ function App() {
 
         {/* Result */}
         {flow.shortUrl && (
-          <div className="scale-in">
+          <div className="animate-fade-up">
             <ShortUrlResult shortUrl={flow.shortUrl} onReset={flow.reset} />
           </div>
         )}
 
         {/* Error */}
         {flow.error && (
-          <div className="glass rounded-2xl p-6 border-2 scale-in" 
-               style={{ 
-                 borderColor: 'var(--error)',
-                 backgroundColor: 'rgba(239, 68, 68, 0.1)' 
-               }}>
-            <div className="flex items-start gap-3">
-              <span className="text-2xl"></span>
-              <div>
-                <h4 className="font-semibold mb-1" style={{ color: 'var(--error)' }}>
-                  Error
-                </h4>
-                <p style={{ color: 'var(--error)' }}>{flow.error}</p>
-              </div>
-            </div>
+          <div className="card animate-fade-in" style={{
+            padding: "14px 16px",
+            borderColor: "var(--error)",
+            backgroundColor: "var(--error-muted)",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}>
+            <span style={{ fontSize: 13, color: "var(--error)", fontWeight: 500 }}>
+              {flow.error}
+            </span>
           </div>
-        )}  
-
+        )}
       </main>
+
+      {/* ── Footer ─────────────────────────────────────────── */}
+      <footer style={{ borderTop: "1px solid var(--border)", padding: "18px 24px", textAlign: "center" }}>
+        <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0 }}>
+          Built with PostgreSQL · Redis · React
+        </p>
+      </footer>
 
     </div>
   );
 }
 
 export default App;
-
-
