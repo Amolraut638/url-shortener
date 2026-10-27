@@ -4,22 +4,12 @@ import UrlInput from "./components/UrlInput";
 import FlowSteps from "./components/FlowSteps";
 import ShortUrlResult from "./components/ShortUrlResult";
 import { useShortenFlow } from "./hooks/useShortenFlow";
-import { Routes, Route } from "react-router-dom";
-import RedirectHandler from "./pages/RedirectHandler";
-
-// keep all your existing imports
 
 function App() {
   const flow = useShortenFlow();
-
+  
   return (
-    <Routes>
-      {/* Home */}
-      <Route
-        path="/"
-        element={
-          <div className="min-h-screen transition-colors duration-300">
-              <div className="min-h-screen transition-colors duration-300" 
+    <div className="min-h-screen transition-colors duration-300" 
          style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       
       {/* Animated background gradient */}
@@ -105,15 +95,9 @@ function App() {
       </main>
 
     </div>
-          </div>
-        }
-      />
-
-      {/* Redirect */}
-      <Route path="/:shortCode" element={<RedirectHandler />} />
-    </Routes>
   );
 }
 
 export default App;
+
 

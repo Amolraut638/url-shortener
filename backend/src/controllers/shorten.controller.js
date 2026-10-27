@@ -12,7 +12,7 @@ async function shortenUrl(req, res) {
       return res.status(400).json({ error: "Invalid URL" });
     }
 
-    // Insert to get auto-increment ID
+    // insert to get auto-increment ID
     const created = await prisma.url.create({
       data: {
         originalUrl: url,

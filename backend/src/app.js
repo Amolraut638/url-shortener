@@ -3,14 +3,15 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(
+/* app.use(
   cors({
     origin: [
       "http://localhost:5173",           // local dev
       "https://zipurl-soiw.onrender.com"  // prod frontend
     ],
   })
-);
+); */
+app.use(cors())
 
 app.use(express.json());
 
